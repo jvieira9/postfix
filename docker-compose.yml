@@ -6,9 +6,12 @@ services:
     container_name: postfix
     environment:
       - MTP_HOST=foo.com
+    volumes:
+      - ./postfix/main.cf:/etc/postfix/main.cf
       
   busybox-shell:
     image: busybox
+    container_name: busybox-shell
     stdin_open: true
     tty: true
     links:
