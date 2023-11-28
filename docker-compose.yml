@@ -2,40 +2,15 @@ version: '3'
 
 services:
   postfix:
-    image: catatnight/postfix
+    image: eeacms/postfix
     container_name: postfix
     environment:
-      - MAIL_HOST=xpto.local
-      - SMTP_USERNAME=xpto
-      - SMTP_PASSWORD=xpto
-      - ALLOWED_SENDER_DOMAINS=example.com
-    ports:
-      - "25:25"
-
-  roundcube:
-    image: roundcube/roundcubemail
-    container_name: roundcube
-    environment:
-      - ROUNDCUBEMAIL_DB_TYPE=mysql
-      - ROUNDCUBEMAIL_DB_HOST=mysql
-      - ROUNDCUBEMAIL_DB_PORT=3306
-      - ROUNDCUBEMAIL_DB_USER=xpto
-      - ROUNDCUBEMAIL_DB_PASSWORD=xpto
-      - ROUNDCUBEMAIL_DEFAULT_HOST=ssl://postfix:25
-      - ROUNDCUBEMAIL_SMTP_SERVER=ssl://postfix:25
-      - ROUNDCUBEMAIL_IMAP_PORT=143
-      - ROUNDCUBEMAIL_SMTP_PORT=25
-    depends_on:
+      - MTP_HOST=foo.com
+      
+  busybox-shell:
+    image: busybox
+    stdin_open: true
+    tty: true
+    links:
       - postfix
-      - mysql
-    ports:
-      - "8080:80"
-
-  mysql:
-    image: mysql:5.7
-    container_name: mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=xpto
-      - MYSQL_DATABASE=roundcube
-      - MYSQL_USER=xpto
-      - MYSQL_PASSWORD=xpto
+    command: sh
