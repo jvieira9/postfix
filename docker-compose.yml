@@ -2,18 +2,35 @@ version: '3'
 
 services:
   postfix:
-    image: eeacms/postfix
+    image: catatnight/postfix
     container_name: postfix
+    ports:
+      - "25:25"
     environment:
-      - MTP_HOST=foo.com
+      - maildomain=mail.example.com
+      - smtp_user=user1:xpto
+    # - smtp_user=user2:xpto
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: xpto
+      MYSQL_DATABASE: postfixadmin
+      MYSQL_USER: postfixadmin
+      MYSQL_PASSWORD: postfixadmin
+    ports:
+      - 3306:3306
+
+  postfixadmin:
+    image: postfixadmin
+    container_name: postfixadmin
+    ports:
+      - 8080:80
+    environment:
+      POSTFIXADMIN_DB_TYPE: mysqli
+      POSTFIXADMIN_DB_HOST: db
+      POSTFIXADMIN_DB_USER: postfixadmin
+      POSTFIXADMIN_DB_NAME: postfixadmin
+      POSTFIXADMIN_DB_PASSWORD: postfixadmin
     volumes:
-      - ./postfix/main.cf:/etc/postfix/main.cf
-      
-  busybox-shell:
-    image: busybox
-    container_name: busybox-shell
-    stdin_open: true
-    tty: true
-    links:
-      - postfix
-    command: sh
+      - ./conf/config.local.php:/var/www/html/config.local.php
