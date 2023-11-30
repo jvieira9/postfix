@@ -35,3 +35,5 @@ services:
       POSTFIXADMIN_DB_PASSWORD: postfixadmin
     volumes:
       - ./conf/config.local.php:/var/www/html/config.local.php
+    depends_on:
+      - db
