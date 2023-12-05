@@ -12,4 +12,5 @@
 		$CONF['configured'] = true;
 		$CONF['dkim'] = 'NO';
 		$CONF['dkim_all_admins'] = 'NO';
+		$CONF['setup_password'] = '$2y$10$FvbbUp6ihYr.Tq3a8ufam.lGiBWoeugIeN8Z4FQaYAbqwPBhCu.g.';
 		?>

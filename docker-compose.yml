@@ -7,7 +7,7 @@ services:
     ports:
       - "25:25"
     environment:
-      - maildomain=mail.example.com
+      - maildomain=xpto.com
       - smtp_user=user1:xpto
     # - smtp_user=user2:xpto
 
@@ -25,6 +25,7 @@ services:
   postfixadmin:
     image: postfixadmin
     container_name: postfixadmin
+    restart: unless-stopped
     ports:
       - 8080:80
     environment:
@@ -35,5 +36,9 @@ services:
       POSTFIXADMIN_DB_PASSWORD: postfixadmin
     volumes:
       - ./conf/config.local.php:/var/www/html/config.local.php
+      - ./conf/config.inc.php:/var/www/html/config.inc.php
     depends_on:
       - db
+
+# postfix setup password: xpto123
+# postfix superadmin account: xpto@xpto.com password: xpto123
